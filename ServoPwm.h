@@ -30,7 +30,9 @@ class ServoPwm {
         int currentPhaseAngle[MaxServoNumber];
 };
 
-#endif /ServoPwm_h
+extern ServoPwm Motor;
+
+#endif //ServoPwm_h
 //
 // END OF FILE
 //

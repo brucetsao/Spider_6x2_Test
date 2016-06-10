@@ -11,7 +11,7 @@ typedef enum  {RUNNING, SUSPEND} TaskState;
 typedef enum  {RoundRobin, PriorityQueue} SwitchingAlgorithm;
 
 
-#define   RTOS_VERSION    "0.1"
+#define   RTOS_VERSION    "0.2"
 #define   MaxTaskNumber   8
 #define   DefaultSwitchingAlgorithm    PriorityQueue
 
@@ -47,7 +47,7 @@ class TaskManager {
         
     private:
         Task taskQueue[MaxTaskNumber];
-        unsigned long lastMillis;   
+        unsigned long lastMicros;   
         unsigned long switchCount=0;
         int activeTaskIndex=-1;
         int numberOfTask=0;
@@ -55,19 +55,6 @@ class TaskManager {
         void TaskSwitching(int algorithm=DefaultSwitchingAlgorithm);
         void PrepareTask();
         void UpdateTaskStat();
-};
-
-class Process : Task {
-    // Not implemented yet   
-    public:
-        Process();   //constructor
-};
-
-class Thread : Task {
-    // Not implemented yet   
-    public:
-        Task *parent;        
-        Thread();   //constructor
 };
 
 class PreemptiveOS {

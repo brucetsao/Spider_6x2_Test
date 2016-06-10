@@ -10,6 +10,9 @@
 #include <Arduino.h>
 #include "ServoPwm.h"
 
+//Extern
+ServoPwm Motor;
+
 /*
  * ServoPwm Class
  */

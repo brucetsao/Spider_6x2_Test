@@ -76,7 +76,7 @@ TaskManager::TaskManager()
 
 void TaskManager::init()
 {    
-    lastMillis = millis();
+    lastMicros = micros();
 }
 
 void TaskManager::PrepareTask()
@@ -127,19 +127,16 @@ void TaskManager::TaskSwitching(int algorithm)
     }
 }
 
-//RTOS::shutdiwn()
-const PROGMEM char str_RtosShutdown[] = "\n\nRTOS shutdown";
-
 void TaskManager::run()
 {  
-    unsigned long diffMillis = millis()-lastMillis;
-    lastMillis = millis();
+    unsigned long diffMicros = micros()-lastMicros; // 1 tick=1us for spider PWM control
+    lastMicros = micros();
     
     switchCount++;
     
     for (int i=0; i<numberOfTask; i++) {
         if (taskQueue[i].runningState==RUNNING) {
-            taskQueue[i].elapsedTick += diffMillis;
+            taskQueue[i].elapsedTick += diffMicros;
         } 
         else if (taskQueue[i].runningState==SUSPEND) {
             // Suspended Task
@@ -209,22 +206,6 @@ void TaskManager::activeTaskReport()
 }
 
 /*
- *  Process Class
- */
-Process::Process()
-{
-  
-}
-
-/*
- *  Thread Class
- */
-Thread::Thread()
-{
-  
-}
-
-/*
  *  PreemptiveOS Class
  */
 PreemptiveOS::PreemptiveOS()
@@ -243,7 +224,7 @@ void PreemptiveOS::run()
 
 void PreemptiveOS::shutdown()
 {
-    Serial.println(str_RtosShutdown);
+    Serial.println(F("\n\nRTOS shutdown"));
     while(1);    
 }
 
