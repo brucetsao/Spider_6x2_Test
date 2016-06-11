@@ -17,22 +17,22 @@ more running time in RTOS for other tasks. For example:<br>
 
 ## modules
 >Spider_6x2_Test.ino<br>
-    &nbsp; The main program.
+    &nbsp;&nbsp;&nbsp; The main program.
 	
 >RTOS<br>
-    &nbsp; A very simple real time operation system, Provides the multi-task switching capabiity.
+    &nbsp;&nbsp;&nbsp; A very simple real time operation system, Provides the multi-task switching capabiity.
 	
 >ServoPWM<br>
-    &nbsp; Generate the 50Hz PWM pulse to drive the servo motors.\n
+    &nbsp;&nbsp;&nbsp; Generate the 50Hz PWM pulse to drive the servo motors.\n
 	
 >CmdShell<br>
-    &nbsp; Accept the input command, interpret and run. All commands should start with a dollor sign '$'
+    &nbsp;&nbsp;&nbsp; Accept the input command, interpret and run. All commands should start with a dollor sign '$'
            and finished with the sharp '#' sign. Currently acceptable commands:<br>
-    &nbsp; (a) $MmmAaaa#, motor mm angle aaa, <br>
-    &nbsp;&nbsp;    ex. $M00A120# -> motor 0 move to angle 120 degree.<br>
-    &nbsp;(b) $Aa#, spider auto action<br>
-    &nbsp;&nbsp;    ex. $A1# -> auto move with aciotn 1<br>
-	&nbsp;&nbsp;&nbsp        $A0# -> stop move<br>
+    &nbsp;&nbsp;&nbsp; (a) $MmmAaaa#, motor mm angle aaa, <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    ex. $M00A120# -> motor 0 move to angle 120 degree.<br>
+    &nbsp;&nbsp;&nbsp;(b) $Aa#, spider auto action<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    ex. $A1# -> auto move with aciotn 1<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        $A0# -> stop move<br>
 			
 >SpiderAuto<br>
-    Auto move for spider action. The control data is listed in the cpp file.
+    &nbsp;&nbsp;&nbsp; Auto move for spider action. The control data is listed in the cpp file.
