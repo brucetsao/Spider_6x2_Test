@@ -18,7 +18,7 @@ more running time in RTOS for other tasks. For example:
 	MaxServoTick = 20
 	switching interval = 660
 
-#### modules
+#### Modules
 * [Spider_6x2_Test.ino] - The main program.
 * [RTOS] - A very simple real time operation system, Provides the multi-task switching capabiity.
 * [ServoPWM] - Generate the 50Hz PWM pulse to drive the servo motors.
