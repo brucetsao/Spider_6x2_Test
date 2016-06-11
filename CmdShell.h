@@ -18,9 +18,9 @@
 class CmdShell {
     public:             
         CmdShell(); //constructor
-        void init(HardwareSerial *port);  //May changed to SoftwareSerial
-        void getCommand();
-        void runCommand(String cmdString);
+        void init(HardwareSerial *port);    //May changed to SoftwareSerial
+        void getCommand();                  //get command from input stream
+        void runCommand(String cmdString);  //interpret the command then execute
                 
     private:
         char cmdBuffer[CmdBufferLength];

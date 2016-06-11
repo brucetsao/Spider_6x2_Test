@@ -9,6 +9,7 @@
  
 #include "CmdShell.h"
 #include "ServoPwm.h"
+#include "SpiderAuto.h"
 
 #define DEBUG_LEVEL 0
 
@@ -41,7 +42,9 @@ void CmdShell::getCommand()
 
 void CmdShell::parseCommand()
 {
-    if ((cmdBuffer[1]=='M') && (cmdBuffer[4]=='A')) {
+    if ((cmdBuffer[1]=='M') && (cmdBuffer[4]=='A') && (cmdBuffer[8]=='#'))
+    { 
+        // Command : Motor Angle 
         int motorID = (cmdBuffer[2]-'0')*10 + (cmdBuffer[3]-'0');
         int phaseAngle = (cmdBuffer[5]-'0')*100 + (cmdBuffer[6]-'0')*10 + (cmdBuffer[7]-'0');
         Motor.targetPhaseAngle[motorID] = phaseAngle;        
@@ -57,6 +60,12 @@ void CmdShell::parseCommand()
             Serial.write(cmdBuffer, cmdLength); 
             Serial.println("'");
         #endif
+    }
+    if ((cmdBuffer[1]=='A') && (cmdBuffer[8]=='#')) 
+    {
+        // Command : AutoAction
+        int actionID = (cmdBuffer[2]-'0');        
+        spiderAuto.beginAction(actionID);
     }
     cmdLength=0; //reset 
 }

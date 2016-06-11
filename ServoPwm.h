@@ -10,13 +10,16 @@
 #ifndef ServoPwm_h
 #define ServoPwm_h
 
-#define   MaxServoNumber        12
-#define   MaxServoTick          20  // 50Hz PWm -> 20ms, if RTOS run tick is 1ms, max tick is 20
-#define   PhaseAngleResolution   9  // 50Hz PWm -> 20ms, if RTOS run tick is 1ms, resolution = 180/20 = 9 degree
+#include "Spider.h"
+
+#define   MaxServoNumber        NumOfMotor
+#define   PhaseAngleResolution   5  // 5 degree
+#define   MaxServoTick          36  // 50Hz PWm -> 20ms, 180 degree /5 degree = 36
 
 class ServoPwm {
     public:      
-        int targetPhaseAngle[MaxServoNumber]; //ideal angle=0~180, limited by motor design parameter
+        int targetPhaseAngle[MaxServoNumber]; //ideal angle=0~180, limited by motor design parameter        
+        int numberOfServo=0;
         
         ServoPwm(); //constructor
         void add(int pin);  //Add a motor to digital pin
@@ -24,7 +27,6 @@ class ServoPwm {
         void report();
         
     private:
-        int numberOfServo=0;
         int phaseTickCount=0;
         int servoPin[MaxServoNumber];
         int currentPhaseAngle[MaxServoNumber];

@@ -18,7 +18,7 @@ typedef enum  {RoundRobin, PriorityQueue} SwitchingAlgorithm;
 class Task {
     public:  
         long tickInterval;
-        int  elapsedTick;
+        long elapsedTick;
         long executionTick;
         long maxExecutionTick=0;        
         long maxDelayTick=0;

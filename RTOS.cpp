@@ -131,6 +131,11 @@ void TaskManager::run()
 {  
     unsigned long diffMicros = micros()-lastMicros; // 1 tick=1us for spider PWM control
     lastMicros = micros();
+
+    if (diffMicros>100000L) { 
+        //if diffMicros>0.1seconds, it's an overflow condition, approximately 70 minutes
+        return;
+    }    
     
     switchCount++;
     
