@@ -16,16 +16,16 @@ more running time in RTOS for other tasks. For example:
 	switching interval = 278
 
 ## modules
->Spider_6x2_Test.ino
+>Spider_6x2_Test.ino\n
     The main program.
 	
->RTOS\n
+>RTOS<br>
     A very simple real time operation system, Provides the multi-task switching capabiity.
 	
->ServoPWM
+>ServoPWM<br>
     Generate the 50Hz PWM pulse to drive the servo motors.\n
 	
->CmdShell
+>CmdShell<br>
     Accept the input command, interpret and run. All commands should start with a dollor sign '$'
     and finished with the sharp '#' sign. Currently acceptable commands:
     (a) $MmmAaaa#, motor mm angle aaa, 
@@ -34,5 +34,5 @@ more running time in RTOS for other tasks. For example:
         ex. $A1# -> auto move with aciotn 1
 	        $A0# -> stop move		   
 			
->SpiderAuto
+>SpiderAuto<br>
     Auto move for spider action. The control data is listed in the cpp file.
