@@ -1,4 +1,4 @@
-# This is a spider machine project.
+# This is a spider robot project.
 
 #### How to tune the parameters ? 
 1. Define the angle resolution (PhaseAngleResolution) in file ServoPwm.h.
