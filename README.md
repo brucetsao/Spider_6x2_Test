@@ -16,7 +16,7 @@ more running time in RTOS for other tasks. For example:
 
 	PhaseAngleResolution = 9
 	MaxServoTick = 20
-	switching interval = 278
+	switching interval = 660
 
 #### modules
 * [Spider_6x2_Test.ino] - The main program.
