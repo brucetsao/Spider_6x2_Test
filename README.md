@@ -13,9 +13,9 @@ The PWM task must be the first task in the RTOS to get the highest running prior
 The other tasks should execute in one PWM task switching interval. If the generated 
 PWM pulse is unstable to drive the motor, adjust the PhaseAngleResolution to release 
 more running time in RTOS for other tasks. For example:
-	PhaseAngleResolution = 9
-	MaxServoTick = 20
-	switching interval = 278
+	PhaseAngleResolution = 9,
+	MaxServoTick = 20,
+	and switching interval = 278.
 
 ---------------
 --- modules ---
