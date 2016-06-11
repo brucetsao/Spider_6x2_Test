@@ -27,5 +27,7 @@ more running time in RTOS for other tasks. For example:
            and finished with the sharp sign '#' . Currently acceptable commands are:
     - motor mm angle aaa : $MmmAaaa#
     - spider auto action : $Aa#
+	
+	A bluetooth module may be used as the CmdShell input stream source.
 			
 * [SpiderAuto] - Auto move for spider action. The control data is listed in the cpp file.
