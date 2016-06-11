@@ -11,22 +11,18 @@ The PWM task must be the first task in the RTOS to get the highest running prior
 The other tasks should execute in one PWM task switching interval. If the generated 
 PWM pulse is unstable to drive the motor, adjust the PhaseAngleResolution to release 
 more running time in RTOS for other tasks. For example:<br>
-	&nbsp PhaseAngleResolution = 9<br>
-	&nbsp MaxServoTick = 20<br>
-	&nbsp switching interval = 278<br>
+	&nbsp;&nbsp;&nbsp; PhaseAngleResolution = 9<br>
+	&nbsp;&nbsp;&nbsp; MaxServoTick = 20<br>
+	&nbsp;&nbsp;&nbsp; switching interval = 278<br>
 
 ## modules
->Spider_6x2_Test.ino<br>
-    &nbsp;&nbsp;&nbsp; The main program.
+* [Spider_6x2_Test.ino] - The main program.
 	
->RTOS<br>
-    &nbsp;&nbsp;&nbsp; A very simple real time operation system, Provides the multi-task switching capabiity.
+* [RTOS] - A very simple real time operation system, Provides the multi-task switching capabiity.
 	
->ServoPWM<br>
-    &nbsp;&nbsp;&nbsp; Generate the 50Hz PWM pulse to drive the servo motors.\n
+* [ServoPWM] - Generate the 50Hz PWM pulse to drive the servo motors.\n
 	
->CmdShell<br>
-    &nbsp;&nbsp;&nbsp; Accept the input command, interpret and run. All commands should start with a dollor sign '$'
+* [CmdShell - Accept the input command, interpret and run. All commands should start with a dollor sign '$'
            and finished with the sharp '#' sign. Currently acceptable commands:<br>
     &nbsp;&nbsp;&nbsp; (a) $MmmAaaa#, motor mm angle aaa, <br>
     &nbsp;&nbsp;&nbsp;&nbsp;    ex. $M00A120# -> motor 0 move to angle 120 degree.<br>
@@ -34,5 +30,4 @@ more running time in RTOS for other tasks. For example:<br>
     &nbsp;&nbsp;&nbsp;&nbsp;    ex. $A1# -> auto move with aciotn 1<br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        $A0# -> stop move<br>
 			
->SpiderAuto<br>
-    &nbsp;&nbsp;&nbsp; Auto move for spider action. The control data is listed in the cpp file.
+* [SpiderAuto] - Auto move for spider action. The control data is listed in the cpp file.
