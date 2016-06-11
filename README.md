@@ -1,8 +1,6 @@
 This is a spider machine project.
 
-------------------------------------
---- How to tune the parameters ? ---
-------------------------------------
+## How to tune the parameters ? 
 1. Define the angle resolution (PhaseAngleResolution) in file ServoPwm.h.
 2. Define the maximum tick (MaxServoTick) in file ServoPwm.h, where
 		MaxServoTick * PhaseAngleResolution = 180
@@ -17,19 +15,17 @@ more running time in RTOS for other tasks. For example:
 	MaxServoTick = 20
 	switching interval = 278
 
----------------
---- modules ---
----------------
-Spider_6x2_Test.ino
+## modules
+>Spider_6x2_Test.ino
     The main program.
 	
-RTOS
+>RTOS\n
     A very simple real time operation system, Provides the multi-task switching capabiity.
 	
-ServoPWM 
-    Generate the 50Hz PWM pulse to drive the servo motors.
+>ServoPWM
+    Generate the 50Hz PWM pulse to drive the servo motors.\n
 	
-CmdShell
+>CmdShell
     Accept the input command, interpret and run. All commands should start with a dollor sign '$'
     and finished with the sharp '#' sign. Currently acceptable commands:
     (a) $MmmAaaa#, motor mm angle aaa, 
@@ -38,5 +34,5 @@ CmdShell
         ex. $A1# -> auto move with aciotn 1
 	        $A0# -> stop move		   
 			
-SpiderAuto
+>SpiderAuto
     Auto move for spider action. The control data is listed in the cpp file.
