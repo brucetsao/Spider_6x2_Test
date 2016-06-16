@@ -50,11 +50,20 @@ void ServoPwm::PwmControl()
     }
 }
 
+int AngleToPWM(int angle) {
+    return (angle-90)*10 + PWM_PulseMid;
+}
+
 void ServoPwm::setPwmWidth(int servoNo, int pwmWidth) 
 {
     if (servoNo > numberOfServo) return;
     if ((pwmWidth<PWM_PulseMin) || (pwmWidth>PWM_PulseMax)) return;
     targetPulseWidth[servoNo] = pwmWidth;
+}
+
+void ServoPwm::setAngle(int servoNo, int angle) 
+{
+    setPwmWidth(servoNo, AngleToPWM(angle));
 }
 
 void ServoPwm::report()

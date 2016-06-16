@@ -13,7 +13,7 @@
 
 #define DEBUG_LEVEL 1
 
-Task *pMotorPwmTask, *pCmdShellTask;
+Task *pCmdShellTask;
 
 void setup() {
     wdt_disable();    // immediately disable watchdog timer so set will not get interrupted
@@ -24,10 +24,20 @@ void setup() {
     CommandShell.init(&Serial); //Command port on Serial
 
     // Motor setup
-    for (int i=2; i<2+NumOfMotor; i++)  { //12 motors
-        Motor.add(i); 
-    }
+    #if (NumOfMotor==12) //12 motors
+        for (int i=0; i<8; i++)  { //#1~8
+            Motor.add(i+2);         
+        }
+    
+        Motor.add(A0);
+        Motor.add(A1);
+        Motor.add(A2);
+        Motor.add(A3);
+    #endif        
     #if (NumOfMotor==18) 
+        for (int i=0; i<12; i++)  { //#1~12
+            Motor.add(i+2);         
+        }    
         Motor.add(A0);
         Motor.add(A1);
         Motor.add(A2);
@@ -37,8 +47,8 @@ void setup() {
     #endif
     
     // Add tasks to RTOS
-    pMotorPwmTask = RTOS.taskManager.addTask(MotorPwmTask, "MotorPwmTask", 19900); //50Hz Pulse, 20ms 
-    pCmdShellTask = RTOS.taskManager.addTask(CmdShellTask, "CmdShellTask", 20000); //check input stream every 20ms 
+    Motor.pPwmTask = RTOS.taskManager.addTask(MotorPwmTask, "MotorPwmTask", 20000); //50Hz Pulse, 20ms 
+    CommandShell.pCmdTask = RTOS.taskManager.addTask(CmdShellTask, "CmdShellTask", 20000); //check input stream every 20ms 
     spiderAuto.pMoveTask = RTOS.taskManager.addTask(SpiderMoveTask, "SpiderMoveTask", 1000000); //move legs every 1s
     // init()
     RTOS.init();    
@@ -69,7 +79,9 @@ void SpiderMoveTask()
         //Serial.println("Motor.numberOfServo error");
         return;
     }
-    spiderAuto.nextMove();
+    if (spiderAuto.actionType>0) {
+        spiderAuto.nextMove();
+    }
     //spiderAuto.pMoveTask->report();
 }
 

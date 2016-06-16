@@ -16,7 +16,8 @@
 
 class SpiderAuto {
     public:    
-        Task* pMoveTask;
+        Task* pMoveTask;        
+        int actionType = 0; 
         
         SpiderAuto(); //constructor
         void beginAction(int actionType);
@@ -24,7 +25,6 @@ class SpiderAuto {
 
     private:            
         int moveStep  = 0;
-        int actionType = 0; 
 };
 
 extern SpiderAuto spiderAuto;

@@ -11,6 +11,7 @@
 #define ServoPwm_h
 
 #include "Spider.h"
+#include "RTOS.h"
 
 #define   MaxServoNumber        NumOfMotor
 
@@ -22,11 +23,13 @@ class ServoPwm {
     public:      
         int targetPulseWidth[MaxServoNumber]; //ideal angle=0~180, limited by motor design parameter        
         int numberOfServo=0;
+        Task* pPwmTask;   
         
         ServoPwm(); //constructor
         void add(int pin);  //Add a motor to digital pin
         void PwmControl();
         void setPwmWidth(int servoNo, int pwmWidth);
+        void setAngle(int servoNo, int angle);
         void report();
         
     private:

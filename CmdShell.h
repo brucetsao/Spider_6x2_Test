@@ -9,6 +9,7 @@
 
 #include <Arduino.h>
 #include "Spider.h"
+#include "RTOS.h"
 
 #ifndef CmdShell_h
 #define CmdShell_h
@@ -17,6 +18,7 @@
 
 class CmdShell {
     public:             
+        Task* pCmdTask;   
         CmdShell(); //constructor
         void init(HardwareSerial *port);    //May changed to SoftwareSerial
         void getCommand();                  //get command from input stream
