@@ -34,38 +34,42 @@ int spiderAutoAction3[][13]= {
 
 SpiderAuto::SpiderAuto() //constructor
 {
-    movePhase  = 0;
+    moveStep  = 0;
     actionType = 0; // no action
 }
 
 void SpiderAuto::beginAction(int actionType)
 { 
     this->actionType = actionType;
-    movePhase  = 0;  
+    moveStep  = 0;  
+}
+
+int AngleToPWM(int angle) {
+    return (angle-90)*10 + PWM_PulseMid;
 }
 
 void SpiderAuto::nextMove()
 {  
     if (actionType==1) {
-        pMoveTask->tickInterval = (unsigned long)spiderAutoAction1[movePhase][0]*1000L;  //1ms=1000us
+        pMoveTask->tickInterval = (unsigned long)spiderAutoAction1[moveStep][0]*1000L;  
         for (int i=0; i<Motor.numberOfServo; i++) {
-            Motor.targetPhaseAngle[i] = spiderAutoAction1[movePhase][i+1];
+            Motor.setPwmWidth(i,AngleToPWM(spiderAutoAction1[moveStep][i+1]));
         }
-        if (++movePhase>4) movePhase=0;
+        if (++moveStep>4) moveStep=0;
     }      
     if (actionType==2) {
-        pMoveTask->tickInterval = (unsigned long)spiderAutoAction2[movePhase][0]*1000L;  //1ms=1000us
+        pMoveTask->tickInterval = (unsigned long)spiderAutoAction2[moveStep][0]*1000L;  
         for (int i=0; i<Motor.numberOfServo; i++) {
-            Motor.targetPhaseAngle[i] = spiderAutoAction2[movePhase][i+1];
+             Motor.setPwmWidth(i,AngleToPWM(spiderAutoAction2[moveStep][i+1]));
         }
-        if (++movePhase>3) movePhase=0;
+        if (++moveStep>3) moveStep=0;
     } 
     if (actionType==3) {
-        pMoveTask->tickInterval = (unsigned long)spiderAutoAction3[movePhase][0]*1000L;  //1ms=1000us
+        pMoveTask->tickInterval = (unsigned long)spiderAutoAction3[moveStep][0]*1000L;  
         for (int i=0; i<Motor.numberOfServo; i++) {
-            Motor.targetPhaseAngle[i] = spiderAutoAction3[movePhase][i+1];
+            Motor.setPwmWidth(i,AngleToPWM(spiderAutoAction3[moveStep][i+1]));
         }
-        if (++movePhase>2) movePhase=0;
+        if (++moveStep>2) moveStep=0;
     } 
 }
 

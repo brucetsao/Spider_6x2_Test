@@ -19,9 +19,8 @@ ServoPwm Motor;
 ServoPwm::ServoPwm()
 {
     numberOfServo=0;  
-    phaseTickCount=0;
     for (int i=0; i<MaxServoNumber; i++)
-      targetPhaseAngle[i] = 90; //90 degree
+      targetPulseWidth[i] = PWM_PulseMid; //90 degree
 }
 
 void ServoPwm::add(int pin)
@@ -37,34 +36,32 @@ void ServoPwm::add(int pin)
 
 void ServoPwm::PwmControl()
 {
-    if (phaseTickCount==0) {
-        for (int i=0; i<numberOfServo; i++) {
-            digitalWrite(servoPin[i],HIGH); //start pulse
-            currentPhaseAngle[i] = 0;
-        }
-    } else {
+    for (int i=0; i<numberOfServo; i++) {
+        digitalWrite(servoPin[i],HIGH); //start pulse
+    } 
+    unsigned long startMicros = micros();
+    unsigned long diffMicros=0;
+    while ( (diffMicros=(micros() - startMicros)) < PWM_PulseMax) {
         for (int i=0; i<numberOfServo; i++) {    
-            if (currentPhaseAngle[i]<targetPhaseAngle[i]) {
-                currentPhaseAngle[i] += PhaseAngleResolution;
-            } else {            
+            if (diffMicros>targetPulseWidth[i]) {
                 digitalWrite(servoPin[i],LOW); //stop pulse
             }
-        }
+        }        
     }
-    if (++phaseTickCount>=MaxServoTick) {
-        phaseTickCount=0;
-    }
+}
+
+void ServoPwm::setPwmWidth(int servoNo, int pwmWidth) 
+{
+    if (servoNo > numberOfServo) return;
+    if ((pwmWidth<PWM_PulseMin) || (pwmWidth>PWM_PulseMax)) return;
+    targetPulseWidth[servoNo] = pwmWidth;
 }
 
 void ServoPwm::report()
 {
-    Serial.print("t=");
-    Serial.print(phaseTickCount);
-    Serial.print(": ");
+    Serial.print("*** PWM : ");
     for (int i=0; i<numberOfServo; i++) {
-        Serial.print(currentPhaseAngle[i]);
-        Serial.print("/");
-        Serial.print(targetPhaseAngle[i]);
+        Serial.print(targetPulseWidth[i]);
         Serial.print(" ");    
     }
     Serial.println();

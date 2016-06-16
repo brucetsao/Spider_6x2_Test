@@ -11,7 +11,7 @@
 #include "ServoPwm.h"
 #include "SpiderAuto.h"
 
-#define DEBUG_LEVEL 0
+#define DEBUG_LEVEL 2
 
 //Extern
 CmdShell CommandShell;
@@ -42,30 +42,32 @@ void CmdShell::getCommand()
 
 void CmdShell::parseCommand()
 {
-    if ((cmdBuffer[1]=='M') && (cmdBuffer[4]=='A') && (cmdBuffer[8]=='#'))
+    Serial.print("*** CMD:");
+    Serial.write(cmdBuffer,cmdLength);
+    Serial.println();
+    if ((cmdBuffer[1]=='M') && (cmdBuffer[4]=='W') && (cmdBuffer[9]=='#'))
     { 
         // Command : Motor Angle 
         int motorID = (cmdBuffer[2]-'0')*10 + (cmdBuffer[3]-'0');
-        int phaseAngle = (cmdBuffer[5]-'0')*100 + (cmdBuffer[6]-'0')*10 + (cmdBuffer[7]-'0');
-        Motor.targetPhaseAngle[motorID] = phaseAngle;        
+        int pulseWidth = (cmdBuffer[5]-'0')*1000 + (cmdBuffer[6]-'0')*100 + (cmdBuffer[7]-'0')*10 + (cmdBuffer[8]-'0');
+        Motor.targetPulseWidth[motorID] = pulseWidth;        
         #if (DEBUG_LEVEL>1)
             Serial.print("MotorID=");
             Serial.print(motorID);
-            Serial.print(", phaseAngle=");
-            Serial.println(phaseAngle);
+            Serial.print(", pulseWidth=");
+            Serial.println(pulseWidth);
         #endif
+    } else if ((cmdBuffer[1]=='A') && (cmdBuffer[3]=='#')) 
+    {
+        // Command : AutoAction
+        int actionID = (cmdBuffer[2]-'0');        
+        spiderAuto.beginAction(actionID);
     } else {
         #if (DEBUG_LEVEL>1)
             Serial.print("Bad Command: '");
             Serial.write(cmdBuffer, cmdLength); 
             Serial.println("'");
         #endif
-    }
-    if ((cmdBuffer[1]=='A') && (cmdBuffer[8]=='#')) 
-    {
-        // Command : AutoAction
-        int actionID = (cmdBuffer[2]-'0');        
-        spiderAuto.beginAction(actionID);
     }
     cmdLength=0; //reset 
 }

@@ -13,23 +13,24 @@
 #include "Spider.h"
 
 #define   MaxServoNumber        NumOfMotor
-#define   PhaseAngleResolution   5  // 5 degree
-#define   MaxServoTick          36  // 50Hz PWm -> 20ms, 180 degree /5 degree = 36
+
+#define   PWM_PulseMin           500 //center position of PWM
+#define   PWM_PulseMid          1500 //center position of PWM
+#define   PWM_PulseMax          2500 //pucenter position of PWM
 
 class ServoPwm {
     public:      
-        int targetPhaseAngle[MaxServoNumber]; //ideal angle=0~180, limited by motor design parameter        
+        int targetPulseWidth[MaxServoNumber]; //ideal angle=0~180, limited by motor design parameter        
         int numberOfServo=0;
         
         ServoPwm(); //constructor
         void add(int pin);  //Add a motor to digital pin
         void PwmControl();
+        void setPwmWidth(int servoNo, int pwmWidth);
         void report();
         
     private:
-        int phaseTickCount=0;
         int servoPin[MaxServoNumber];
-        int currentPhaseAngle[MaxServoNumber];
 };
 
 extern ServoPwm Motor;

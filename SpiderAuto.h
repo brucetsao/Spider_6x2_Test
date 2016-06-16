@@ -23,7 +23,7 @@ class SpiderAuto {
         void nextMove();
 
     private:            
-        int movePhase  = 0;
+        int moveStep  = 0;
         int actionType = 0; 
 };
 

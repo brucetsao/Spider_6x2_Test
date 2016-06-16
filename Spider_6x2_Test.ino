@@ -24,7 +24,7 @@ void setup() {
     CommandShell.init(&Serial); //Command port on Serial
 
     // Motor setup
-    for (int i=2; i<=13; i++)  { //12 motors
+    for (int i=2; i<2+NumOfMotor; i++)  { //12 motors
         Motor.add(i); 
     }
     #if (NumOfMotor==18) 
@@ -37,8 +37,8 @@ void setup() {
     #endif
     
     // Add tasks to RTOS
-    pMotorPwmTask = RTOS.taskManager.addTask(MotorPwmTask, "MotorPwmTask", 492);  //36 ticks in 2000us, adjust this period to generate 50Hz Pulse 
-    pCmdShellTask = RTOS.taskManager.addTask(CmdShellTask, "CmdShellTask", 3000); //check input stream every 1ms 
+    pMotorPwmTask = RTOS.taskManager.addTask(MotorPwmTask, "MotorPwmTask", 19900); //50Hz Pulse, 20ms 
+    pCmdShellTask = RTOS.taskManager.addTask(CmdShellTask, "CmdShellTask", 20000); //check input stream every 20ms 
     spiderAuto.pMoveTask = RTOS.taskManager.addTask(SpiderMoveTask, "SpiderMoveTask", 1000000); //move legs every 1s
     // init()
     RTOS.init();    
@@ -70,6 +70,6 @@ void SpiderMoveTask()
         return;
     }
     spiderAuto.nextMove();
-    //pSpiderMoveTask->report();
+    //spiderAuto.pMoveTask->report();
 }
 
