@@ -33,9 +33,9 @@ int spiderAutoAction2[][13]= {
         {250,  90, 90, 90, 90, 90, 90, 30, 30, 30, 30, 30, 30}
     };
 int spiderAutoAction3[][13]= { 
-        {1000,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0}, //action time in mini-seconds, angle1, angle2, angle3 ...... angle12
-        {1000,  90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90},
-        {1000, 180,180,180,180,180,180,180,180,180,180,180,180}
+        {2000,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0}, //action time in mini-seconds, angle1, angle2, angle3 ...... angle12
+        {2000,  90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90},
+        {2000, 180,180,180,180,180,180,180,180,180,180,180,180}
     };
 
 
@@ -56,21 +56,21 @@ void SpiderAuto::nextMove()
 {  
     if (actionType==1) {
         pMoveTask->tickInterval = (unsigned long)spiderAutoAction1[moveStep][0]*1000L;  
-        for (int i=0; i<Motor.numberOfServo; i++) {
+        for (int i=0; i<NumberOfServo; i++) {
             Motor.setAngle(i,spiderAutoAction1[moveStep][i+1]);
         }
         if (++moveStep>7) moveStep=0;
     }      
     if (actionType==2) {
         pMoveTask->tickInterval = (unsigned long)spiderAutoAction2[moveStep][0]*1000L;  
-        for (int i=0; i<Motor.numberOfServo; i++) {
+        for (int i=0; i<NumberOfServo; i++) {
               Motor.setAngle(i,spiderAutoAction2[moveStep][i+1]);
         }
         if (++moveStep>7) moveStep=0;
     } 
     if (actionType==3) {
         pMoveTask->tickInterval = (unsigned long)spiderAutoAction3[moveStep][0]*1000L;  
-        for (int i=0; i<Motor.numberOfServo; i++) {
+        for (int i=0; i<NumberOfServo; i++) {
              Motor.setAngle(i,spiderAutoAction3[moveStep][i+1]);
         }
         if (++moveStep>2) moveStep=0;

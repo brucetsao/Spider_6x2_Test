@@ -63,25 +63,19 @@ void CmdShell::parseCommand()
         // Command : Motor Angle 
         int motorID = (cmdBuffer[2]-'0')*10 + (cmdBuffer[3]-'0');
         int angle = (cmdBuffer[5]-'0')*100 + (cmdBuffer[6]-'0')*10 + (cmdBuffer[7]-'0');
-        Motor.setAngle(motorID, angle);        
         #if (DEBUG_LEVEL>1)
             Serial.print("MotorID=");
             Serial.print(motorID);
             Serial.print(", angle=");
             Serial.println(angle);
-        #endif
+        #endif        
+        Motor.setAngle(motorID, angle);        
     } 
-    else if ((cmdBuffer[1]=='S') && (cmdBuffer[3]=='#'))
+    else if ((cmdBuffer[1]=='S') && (cmdBuffer[5]=='#'))
     { 
         // Command : Set
-        int angle;
-        switch (cmdBuffer[2]) {
-            case '+': angle = 180; break;
-            case '-': angle =   0; break;
-            case '0': angle =  90; break;
-            default : return; //invalid command
-        }
-        for (int i=0; i<Motor.numberOfServo; i++) {
+        int angle = (cmdBuffer[2]-'0')*100 + (cmdBuffer[3]-'0')*10 + (cmdBuffer[4]-'0');
+        for (int i=0; i<NumberOfServo; i++) {
             Motor.setAngle(i, angle);
         }     
     } 
@@ -89,7 +83,7 @@ void CmdShell::parseCommand()
     {
         // Command : Query
         Serial.print("*** PWM: ");
-        for (int i=0; i<Motor.numberOfServo; i++) {
+        for (int i=0; i<NumberOfServo; i++) {
             Serial.print(Motor.targetPulseWidth[i]);
             Serial.print(" ");
         }    

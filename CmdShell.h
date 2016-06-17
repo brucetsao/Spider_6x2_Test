@@ -19,6 +19,8 @@
 class CmdShell {
     public:             
         Task* pCmdTask;   
+
+        // methods
         CmdShell(); //constructor
         void init(HardwareSerial *port);    //May changed to SoftwareSerial
         void getCommand();                  //get command from input stream
@@ -28,6 +30,8 @@ class CmdShell {
         char cmdBuffer[CmdBufferLength];
         int  cmdLength=0;
         HardwareSerial *port;
+
+        // methods
         void parseCommand();
 };
 

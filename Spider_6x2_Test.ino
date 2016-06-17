@@ -22,29 +22,6 @@ void setup() {
 
     Serial.begin(57600);        // Debug port on Serial
     CommandShell.init(&Serial); //Command port on Serial
-
-    // Motor setup
-    #if (NumOfMotor==12) //12 motors
-        for (int i=0; i<8; i++)  { //#1~8
-            Motor.add(i+2);         
-        }
-    
-        Motor.add(A0);
-        Motor.add(A1);
-        Motor.add(A2);
-        Motor.add(A3);
-    #endif        
-    #if (NumOfMotor==18) 
-        for (int i=0; i<12; i++)  { //#1~12
-            Motor.add(i+2);         
-        }    
-        Motor.add(A0);
-        Motor.add(A1);
-        Motor.add(A2);
-        Motor.add(A3);
-        Motor.add(A4);
-        Motor.add(A5);    
-    #endif
     
     // Add tasks to RTOS
     Motor.pPwmTask = RTOS.taskManager.addTask(MotorPwmTask, "MotorPwmTask", 20000); //50Hz Pulse, 20ms 
@@ -64,21 +41,17 @@ void MotorPwmTask()
 {
     Motor.PwmControl();
     //Motor.report();           //cannot report in running mode
-    //pMotorPwmTask->report();  //cannot report in running mode
+    // Motor.pPwmTask->report();  //cannot report in running mode
 }
 
 void CmdShellTask()
 {
     CommandShell.getCommand();  //get command from input stream
-    //pCmdShellTask->report();  //cannot report in running mode
+    //CommandShell.pCmdTask->report();  //cannot report in running mode
 }
 
 void SpiderMoveTask()
 {
-    if (Motor.numberOfServo!=12) {  // Check Spider Type with spider Action data
-        //Serial.println("Motor.numberOfServo error");
-        return;
-    }
     if (spiderAuto.actionType>0) {
         spiderAuto.nextMove();
     }

@@ -18,7 +18,8 @@ class SpiderAuto {
     public:    
         Task* pMoveTask;        
         int actionType = 0; 
-        
+
+        // methods
         SpiderAuto(); //constructor
         void beginAction(int actionType);
         void nextMove();

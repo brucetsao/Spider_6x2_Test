@@ -7,8 +7,9 @@
  *        
  */
 
-#include <Arduino.h>
 #include "ServoPwm.h"
+
+#define DEBUG_LEVEL 2
 
 //Extern
 ServoPwm Motor;
@@ -18,58 +19,52 @@ ServoPwm Motor;
  */
 ServoPwm::ServoPwm()
 {
-    numberOfServo=0;  
-    for (int i=0; i<MaxServoNumber; i++)
-      targetPulseWidth[i] = PWM_PulseMid; //90 degree
-}
-
-void ServoPwm::add(int pin)
-{
-    if (numberOfServo<MaxServoNumber) {
-        servoPin[numberOfServo] = pin;
-        pinMode(pin,OUTPUT);
-        numberOfServo++;
-    } else {
-        Serial.println(F("*** Err: MaxServoNumber exceed"));
+    for (int i=0; i<NumberOfServo; i++) {
+        pinMode(servoPin[i],OUTPUT);    
+        targetPulseWidth[i] =  midPulseWidth[i]; //90 degree
     }
 }
 
 void ServoPwm::PwmControl()
 {
-    for (int i=0; i<numberOfServo; i++) {
+    for (int i=0; i<NumberOfServo; i++) {
         digitalWrite(servoPin[i],HIGH); //start pulse
     } 
     unsigned long startMicros = micros();
     unsigned long diffMicros=0;
-    while ( (diffMicros=(micros() - startMicros)) < PWM_PulseMax) {
-        for (int i=0; i<numberOfServo; i++) {    
+    while ( (diffMicros=(micros() - startMicros)) < PWM_MaxPulseLength) {
+        for (int i=0; i<NumberOfServo; i++) {    
             if (diffMicros>targetPulseWidth[i]) {
                 digitalWrite(servoPin[i],LOW); //stop pulse
             }
         }        
     }
+    //ensure to stop pulse
+    for (int i=0; i<NumberOfServo; i++) {    
+        digitalWrite(servoPin[i],LOW); 
+    }            
 }
 
-int AngleToPWM(int angle) {
-    return (angle-90)*10 + PWM_PulseMid;
+int ServoPwm::angleToPulseWidth(int servoNo, int angle) {
+    return (angle-90)*angleToPwmRatio[servoNo] + midPulseWidth[servoNo];
 }
 
 void ServoPwm::setPwmWidth(int servoNo, int pwmWidth) 
-{
-    if (servoNo > numberOfServo) return;
-    if ((pwmWidth<PWM_PulseMin) || (pwmWidth>PWM_PulseMax)) return;
+{  
+    if ((servoNo >= NumberOfServo) || (servoNo < 0)) return;
+    if ((pwmWidth > maxPulseWidth[servoNo]) || (pwmWidth<minPulseWidth[servoNo])) return;
     targetPulseWidth[servoNo] = pwmWidth;
 }
 
 void ServoPwm::setAngle(int servoNo, int angle) 
 {
-    setPwmWidth(servoNo, AngleToPWM(angle));
+    setPwmWidth(servoNo, angleToPulseWidth(servoNo, angle));
 }
 
 void ServoPwm::report()
 {
     Serial.print("*** PWM : ");
-    for (int i=0; i<numberOfServo; i++) {
+    for (int i=0; i<NumberOfServo; i++) {
         Serial.print(targetPulseWidth[i]);
         Serial.print(" ");    
     }
