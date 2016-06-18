@@ -32,7 +32,8 @@ void ServoPwm::PwmControl()
     } 
     unsigned long startMicros = micros();
     unsigned long diffMicros=0;
-    while ( (diffMicros=(micros() - startMicros)) < PWM_MaxPulseLength) {
+    delayMicroseconds(PWM_MinPulseWidth); // for stability
+    while ( (diffMicros=(micros() - startMicros)) < PWM_MaxPulseWidth) {
         for (int i=0; i<NumberOfServo; i++) {    
             if (diffMicros>targetPulseWidth[i]) {
                 digitalWrite(servoPin[i],LOW); //stop pulse
